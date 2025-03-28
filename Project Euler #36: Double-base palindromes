@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+#include <algorithm> // Include this for reverse function
+
+using namespace std;
+
+// Function to check if a number is palindromic in a given base
+bool isPalindrome(string s) {
+    int left = 0, right = s.size() - 1;
+    while (left < right) {
+        if (s[left] != s[right])
+            return false;
+        left++, right--;
+    }
+    return true;
+}
+
+// Function to convert number to base K and return as string
+string toBaseK(int num, int K) {
+    string result = "";
+    while (num > 0) {
+        result += char('0' + (num % K)); // Get remainder as a digit
+        num /= K;
+    }
+    reverse(result.begin(), result.end()); // Reverse to get correct order
+    return result;
+}
+
+int main() {
+    int N, K;
+    cin >> N >> K;
+    long long sum = 0;
+
+    for (int i = 1; i < N; i++) {
+        string decimalStr = to_string(i);
+        string baseKStr = toBaseK(i, K);
+
+        if (isPalindrome(decimalStr) && isPalindrome(baseKStr)) {
+            sum += i;
+        }
+    }
+
+    cout << sum << endl;
+    return 0;
+}
