@@ -1,0 +1,52 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+bool isPalindrome(int num) {
+    int originalNum = num;
+    int reversedNum = 0;
+
+    while (num > 0) {
+        int digit = num % 10;
+        reversedNum = reversedNum * 10 + digit;
+        num /= 10;
+    }
+
+    return originalNum == reversedNum;
+}
+
+int largestPalindrome(int limit) {
+    int maxPalindrome = 0;
+
+    for (int i = 999; i >= 100; i--) {
+        for (int j = i; j >= 100; j--) {
+            int product = i * j;
+
+            // Break if the product is less than the current maximum palindrome
+            if (product < maxPalindrome) {
+                break;
+            }
+
+            if (product < limit && isPalindrome(product)) {
+                maxPalindrome = max(maxPalindrome, product);
+            }
+        }
+    }
+
+    return maxPalindrome;
+}
+
+int main() {
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int limit;
+        cin >> limit;
+
+        int result = largestPalindrome(limit);
+        cout << result << endl;
+    }
+
+    return 0;
+}
