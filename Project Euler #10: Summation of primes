@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int MAX_N = 1000000; // Upper bound constraint
+vector<long long> primeSum(MAX_N + 1, 0);
+
+// Precompute prime sums using Sieve of Eratosthenes
+void precomputePrimeSums() {
+    vector<bool> isPrime(MAX_N + 1, true);
+    isPrime[0] = isPrime[1] = false; // 0 and 1 are not prime
+
+    for (int i = 2; i * i <= MAX_N; i++) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= MAX_N; j += i)
+                isPrime[j] = false;
+        }
+    }
+
+    // Compute cumulative sum of primes
+    for (int i = 1; i <= MAX_N; i++) {
+        primeSum[i] = primeSum[i - 1] + (isPrime[i] ? i : 0);
+    }
+}
+
+int main() {
+    precomputePrimeSums(); // Compute prime sums once
+
+    int T;
+    cin >> T;
+    while (T--) {
+        int N;
+        cin >> N;
+        cout << primeSum[N] << endl; // Query in O(1)
+    }
+
+    return 0;
+}
