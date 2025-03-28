@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+const int MAX_N = 5000000; // Constraint
+vector<int> longestCollatz(MAX_N + 1, 0);
+vector<int> bestNumber(MAX_N + 1, 0);
+unordered_map<long long, int> collatzCache; // To store results for larger values
+
+// Function to compute Collatz sequence length
+int getCollatzLength(long long n) {
+    if (n == 1) return 1;
+    if (n < MAX_N && longestCollatz[n] != 0) return longestCollatz[n];
+
+    int length;
+    if (n % 2 == 0)
+        length = 1 + getCollatzLength(n / 2);
+    else
+        length = 1 + getCollatzLength(3 * n + 1);
+
+    if (n < MAX_N) longestCollatz[n] = length;
+    return length;
+}
+
+// Precompute the longest Collatz sequence results
+void precomputeCollatz() {
+    int maxLength = 0, maxNumber = 1;
+    
+    for (int i = 1; i <= MAX_N; i++) {
+        int length = getCollatzLength(i);
+
+        if (length >= maxLength) { // Update the maximum length
+            maxLength = length;
+            maxNumber = i;
+        }
+
+        longestCollatz[i] = length;
+        bestNumber[i] = maxNumber;
+    }
+}
+
+int main() {
+    precomputeCollatz(); // Precompute results for fast queries
+
+    int T;
+    cin >> T;
+    while (T--) {
+        int N;
+        cin >> N;
+        cout << bestNumber[N] << endl; // O(1) query lookup
+    }
+
+    return 0;
+}
