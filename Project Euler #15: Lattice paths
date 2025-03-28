@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+const int MOD = 1000000007;
+
+// Function to compute (x^y) % MOD using Binary Exponentiation
+long long modPower(long long x, long long y, long long mod) {
+    long long res = 1;
+    while (y > 0) {
+        if (y % 2 == 1) res = (res * x) % mod;
+        x = (x * x) % mod;
+        y /= 2;
+    }
+    return res;
+}
+
+// Function to compute nCr % MOD using modular inverse
+long long nCrMod(long long n, long long r, long long mod) {
+    if (r > n) return 0;
+    
+    long long fact[n + 1];
+    fact[0] = 1;
+    
+    // Compute factorials % MOD
+    for (long long i = 1; i <= n; i++)
+        fact[i] = (fact[i - 1] * i) % mod;
+    
+    // Compute modular inverse using Fermat's theorem
+    long long denom = (fact[r] * fact[n - r]) % mod;
+    long long invDenom = modPower(denom, mod - 2, mod);
+    
+    return (fact[n] * invDenom) % mod;
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int N, M;
+        cin >> N >> M;
+        cout << nCrMod(N + M, M, MOD) << endl;
+    }
+    return 0;
+}
