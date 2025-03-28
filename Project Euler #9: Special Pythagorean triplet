@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+long long findMaxPythagoreanProduct(int S) {
+    long long maxProduct = -1;
+    
+    // Brute-force approach, optimized by reducing loops
+    for (int a = 1; a < S / 3; a++) {
+        for (int b = a + 1; b < S / 2; b++) {
+            int c = S - a - b;
+            if (a * a + b * b == c * c) {
+                maxProduct = max(maxProduct, 1LL * a * b * c);
+            }
+        }
+    }
+    
+    return maxProduct;
+}
+
+int main() {
+    int T;
+    cin >> T;  // Number of test cases
+
+    while (T--) {
+        int S;
+        cin >> S;
+        cout << findMaxPythagoreanProduct(S) << endl;
+    }
+
+    return 0;
+}
