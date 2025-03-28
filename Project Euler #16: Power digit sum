@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to calculate 2^N using vector for large numbers
+vector<int> powerOfTwo(int N) {
+    vector<int> result(1, 1); // Start with 2^0 = 1
+
+    for (int i = 0; i < N; i++) {
+        int carry = 0;
+        for (int j = 0; j < result.size(); j++) {
+            int prod = result[j] * 2 + carry;
+            result[j] = prod % 10; // Store last digit
+            carry = prod / 10; // Carry over
+        }
+        while (carry) {
+            result.push_back(carry % 10);
+            carry /= 10;
+        }
+    }
+
+    return result; // Digits are stored in reverse order
+}
+
+// Function to compute sum of digits of 2^N
+int sumOfDigits(int N) {
+    vector<int> result = powerOfTwo(N);
+    int sum = 0;
+    for (int digit : result) sum += digit;
+    return sum;
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int N;
+        cin >> N;
+        cout << sumOfDigits(N) << endl;
+    }
+    return 0;
+}
