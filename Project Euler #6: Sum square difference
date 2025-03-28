@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+long long sumOfSquares(int n) {
+    long long sum = 0;
+    for (int i = 1; i <= n; i++) {
+        sum += i * i;
+    }
+    return sum;
+}
+
+long long squareOfSum(int n) {
+    long long sum = 0;
+    for (int i = 1; i <= n; i++) {
+        sum += i;
+    }
+    return sum * sum;
+}
+
+int main() {
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n;
+        cin >> n;
+
+        long long sumSquares = sumOfSquares(n);
+        long long squareSum = squareOfSum(n);
+
+        long long difference = abs(squareSum - sumSquares);
+        cout << difference << endl;
+    }
+
+    return 0;
+}
