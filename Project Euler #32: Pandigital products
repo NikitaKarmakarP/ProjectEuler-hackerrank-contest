@@ -1,0 +1,51 @@
+#include <iostream>
+#include <algorithm>
+#include <set>
+#include <vector>
+
+using namespace std;
+
+// Function to convert a subset of a vector into an integer
+int toInt(vector<int> &digits, int start, int end) {
+    int num = 0;
+    for (int i = start; i < end; i++) {
+        num = num * 10 + digits[i];
+    }
+    return num;
+}
+
+// Function to find the sum of all unique products using permutations
+int pandigitalProductSum(int N) {
+    vector<int> digits(N);
+    set<int> uniqueProducts;
+
+    // Fill digits with 1 to N
+    for (int i = 0; i < N; i++) digits[i] = i + 1;
+
+    do {
+        for (int split1 = 1; split1 < N - 1; split1++) {
+            for (int split2 = split1 + 1; split2 < N; split2++) {
+                int a = toInt(digits, 0, split1);
+                int b = toInt(digits, split1, split2);
+                int c = toInt(digits, split2, N);
+
+                if (a * b == c) {
+                    uniqueProducts.insert(c);
+                }
+            }
+        }
+    } while (next_permutation(digits.begin(), digits.end()));
+
+    int sum = 0;
+    for (int p : uniqueProducts) {
+        sum += p;
+    }
+    return sum;
+}
+
+int main() {
+    int N;
+    cin >> N;
+    cout << pandigitalProductSum(N) << endl;
+    return 0;
+}
