@@ -1,0 +1,23 @@
+def triangle_area(x1, y1, x2, y2, x3, y3):
+    """Calculate the absolute area of a triangle given its three vertices."""
+    return abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0
+
+def contains_origin(x1, y1, x2, y2, x3, y3):
+    """Check if the triangle (x1, y1), (x2, y2), (x3, y3) contains the origin (0,0)."""
+    total_area = triangle_area(x1, y1, x2, y2, x3, y3)
+    area1 = triangle_area(0, 0, x2, y2, x3, y3)
+    area2 = triangle_area(x1, y1, 0, 0, x3, y3)
+    area3 = triangle_area(x1, y1, x2, y2, 0, 0)
+
+    return abs(total_area - (area1 + area2 + area3)) < 1e-9  # Floating-point precision check
+
+# Input handling
+n = int(input().strip())  # Number of triangles
+count = 0
+
+for _ in range(n):
+    x1, y1, x2, y2, x3, y3 = map(int, input().split())
+    if contains_origin(x1, y1, x2, y2, x3, y3):
+        count += 1
+
+print(count)
