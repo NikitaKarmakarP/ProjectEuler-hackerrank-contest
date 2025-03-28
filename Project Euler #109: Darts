@@ -1,0 +1,35 @@
+MOD = 10**9 + 7
+
+# Generate possible scores
+singles = {i for i in range(1, 21)} | {25}  # Single 1-20, and Single Bull (25)
+doubles = {2*i for i in range(1, 21)} | {50}  # Double 1-20, and Double Bull (50)
+triples = {3*i for i in range(1, 21)}  # Triple 1-20
+
+all_scores = sorted(singles | doubles | triples)  # All possible scores a dart can hit
+
+def count_checkouts(N):
+    count = 0
+    
+    # Single dart checkout (must end in a double)
+    for d in doubles:
+        if d <= N:
+            count += 1  # Single dart finish
+
+    # Two dart checkouts
+    for d in doubles:
+        for s in all_scores:
+            if s + d <= N:
+                count += 1
+
+    # Three dart checkouts
+    for d in doubles:
+        for s1 in all_scores:
+            for s2 in all_scores:
+                if s1 + s2 + d <= N:
+                    count += 1
+
+    return count % MOD
+
+# Read input
+N = int(input().strip())
+print(count_checkouts(N))
