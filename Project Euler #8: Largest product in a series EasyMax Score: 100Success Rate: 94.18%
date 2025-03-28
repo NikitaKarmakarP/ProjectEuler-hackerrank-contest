@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+long long maxProduct(string &num, int K) {
+    long long maxProd = 0, currProd = 1;
+    int zeroCount = 0;
+
+    // Compute product of the first K digits
+    for (int i = 0; i < K; i++) {
+        if (num[i] == '0') zeroCount++;
+        else currProd *= (num[i] - '0');
+    }
+
+    if (zeroCount == 0) maxProd = currProd;
+
+    // Sliding Window
+    for (int i = K; i < num.size(); i++) {
+        // Remove the leftmost digit from the window
+        if (num[i - K] == '0') {
+            zeroCount--;
+        } else {
+            currProd /= (num[i - K] - '0');
+        }
+
+        // Add the new rightmost digit to the window
+        if (num[i] == '0') {
+            zeroCount++;
+        } else {
+            currProd *= (num[i] - '0');
+        }
+
+        // Update max product if no zero in the window
+        if (zeroCount == 0) maxProd = max(maxProd, currProd);
+    }
+
+    return maxProd;
+}
+
+int main() {
+    int T;
+    cin >> T;  // Number of test cases
+
+    while (T--) {
+        int N, K;
+        string num;
+        cin >> N >> K >> num;  // Read input
+
+        cout << maxProduct(num, K) << endl;
+    }
+
+    return 0;
+}
