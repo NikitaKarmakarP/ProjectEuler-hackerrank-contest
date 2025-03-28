@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to add very large numbers represented as strings
+string largeSum(vector<string>& numbers) {
+    int carry = 0;
+    string result = "";
+
+    int numDigits = numbers[0].size(); // 50-digit numbers
+    for (int i = numDigits - 1; i >= 0; i--) {
+        int columnSum = carry;
+        for (string num : numbers) {
+            columnSum += (num[i] - '0'); // Convert char to int
+        }
+        carry = columnSum / 10; // Extract carry
+        result = char((columnSum % 10) + '0') + result; // Append digit
+    }
+
+    // Add remaining carry
+    while (carry > 0) {
+        result = char((carry % 10) + '0') + result;
+        carry /= 10;
+    }
+
+    return result.substr(0, 10); // Return first 10 digits
+}
+
+int main() {
+    int N;
+    cin >> N;
+    vector<string> numbers(N);
+
+    for (int i = 0; i < N; i++)
+        cin >> numbers[i];
+
+    cout << largeSum(numbers) << endl;
+    return 0;
+}
