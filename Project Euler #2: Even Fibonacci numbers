@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+void sumEvenFibonacci(long long N) {
+    long long a = 2, b = 8;  // First two even Fibonacci numbers
+    long long sum = 2;  // Include the first even Fibonacci number
+
+    while (b < N) {
+        sum += b;
+        long long next = 4 * b + a;  // Generate only even Fibonacci numbers
+        a = b;
+        b = next;
+    }
+
+    cout << sum << endl;
+}
+
+int main() {
+    int T;
+    cin >> T;  // Number of test cases
+
+    while (T--) {
+        long long N;
+        cin >> N;
+        sumEvenFibonacci(N);
+    }
+
+    return 0;
+}
