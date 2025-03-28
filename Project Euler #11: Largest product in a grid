@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+#define SIZE 20
+#define ADJ 4 // Length of adjacent numbers to consider
+
+int getMaxProduct(vector<vector<int>> &grid) {
+    int maxProduct = 0;
+
+    // Loop through the grid
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            // Check right (horizontal)
+            if (j + ADJ <= SIZE) {
+                int product = grid[i][j] * grid[i][j + 1] * grid[i][j + 2] * grid[i][j + 3];
+                maxProduct = max(maxProduct, product);
+            }
+
+            // Check down (vertical)
+            if (i + ADJ <= SIZE) {
+                int product = grid[i][j] * grid[i + 1][j] * grid[i + 2][j] * grid[i + 3][j];
+                maxProduct = max(maxProduct, product);
+            }
+
+            // Check diagonal (\)
+            if (i + ADJ <= SIZE && j + ADJ <= SIZE) {
+                int product = grid[i][j] * grid[i + 1][j + 1] * grid[i + 2][j + 2] * grid[i + 3][j + 3];
+                maxProduct = max(maxProduct, product);
+            }
+
+            // Check diagonal (/)
+            if (i + ADJ <= SIZE && j - ADJ + 1 >= 0) {
+                int product = grid[i][j] * grid[i + 1][j - 1] * grid[i + 2][j - 2] * grid[i + 3][j - 3];
+                maxProduct = max(maxProduct, product);
+            }
+        }
+    }
+
+    return maxProduct;
+}
+
+int main() {
+    vector<vector<int>> grid(SIZE, vector<int>(SIZE));
+
+    // Reading input grid
+    for (int i = 0; i < SIZE; i++)
+        for (int j = 0; j < SIZE; j++)
+            cin >> grid[i][j];
+
+    cout << getMaxProduct(grid) << endl;
+    return 0;
+}
