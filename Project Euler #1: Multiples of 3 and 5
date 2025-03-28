@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+// Function to compute sum of multiples of x below N
+long long sumMultiples(long long x, long long N) {
+    long long k = (N - 1) / x;
+    return x * (k * (k + 1)) / 2;
+}
+
+int main() {
+    int t;
+    cin >> t;  // Number of test cases
+
+    while (t--) {
+        long long N;
+        cin >> N;
+
+        // Compute sum using formula
+        long long result = sumMultiples(3, N) + sumMultiples(5, N) - sumMultiples(15, N);
+
+        cout << result << endl;
+    }
+
+    return 0;
+}
