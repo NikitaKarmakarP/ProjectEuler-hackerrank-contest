@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to check if a number is prime
+bool isPrime(int num, const vector<bool>& prime) {
+    if (num < 0) return false;  // No negative primes
+    return prime[num];
+}
+
+// Function to implement the Sieve of Eratosthenes
+vector<bool> sieve(int limit) {
+    vector<bool> prime(limit + 1, true);
+    prime[0] = prime[1] = false;
+    for (int i = 2; i * i <= limit; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= limit; j += i) {
+                prime[j] = false;
+            }
+        }
+    }
+    return prime;
+}
+
+// Function to find the best (a, b) pair
+pair<int, int> findBestCoefficients(int N) {
+    int maxCount = 0, bestA = 0, bestB = 0;
+    int limit = 2 * N * N;  // Define a reasonable limit for primes
+    vector<bool> prime = sieve(limit);
+
+    for (int a = -N + 1; a < N; a++) {  // a in [-N+1, N-1]
+        for (int b = -N; b <= N; b++) {  // b in [-N, N]
+            int n = 0;
+            while (isPrime(n * n + a * n + b, prime)) {
+                n++;
+            }
+            if (n > maxCount) {
+                maxCount = n;
+                bestA = a;
+                bestB = b;
+            }
+        }
+    }
+    return {bestA, bestB};
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    pair<int, int> result = findBestCoefficients(N);
+    cout << result.first << " " << result.second << endl;
+
+    return 0;
+}
