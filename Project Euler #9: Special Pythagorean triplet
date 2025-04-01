@@ -1,32 +1,14 @@
-#include <iostream>
-#include <cmath>
-using namespace std;
+def max_pythagorean_triplet_product(n):
+    max_product = -1
+    for a in range(1, n // 3):  # a must be less than n/3 to satisfy a < b < c
+        b = (n * (n - 2 * a)) // (2 * (n - a))
+        c = n - a - b
+        if a * a + b * b == c * c:  # Check if it forms a Pythagorean triplet
+            max_product = max(max_product, a * b * c)
+    return max_product
 
-long long findMaxPythagoreanProduct(int S) {
-    long long maxProduct = -1;
-    
-    // Brute-force approach, optimized by reducing loops
-    for (int a = 1; a < S / 3; a++) {
-        for (int b = a + 1; b < S / 2; b++) {
-            int c = S - a - b;
-            if (a * a + b * b == c * c) {
-                maxProduct = max(maxProduct, 1LL * a * b * c);
-            }
-        }
-    }
-    
-    return maxProduct;
-}
-
-int main() {
-    int T;
-    cin >> T;  // Number of test cases
-
-    while (T--) {
-        int S;
-        cin >> S;
-        cout << findMaxPythagoreanProduct(S) << endl;
-    }
-
-    return 0;
-}
+# Reading input
+t = int(input())  # Number of test cases
+for _ in range(t):
+    n = int(input())
+    print(max_pythagorean_triplet_product(n))
