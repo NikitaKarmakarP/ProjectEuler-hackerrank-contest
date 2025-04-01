@@ -1,0 +1,50 @@
+#include <iostream>
+#include <set>
+#include <vector>
+
+using namespace std;
+
+// Function to compute a^b using manual multiplication (Big Integer as string)
+string power(int a, int b) {
+    vector<int> result = {1}; // Store the number as an array of digits
+
+    for (int i = 0; i < b; i++) {
+        int carry = 0;
+        for (int j = 0; j < result.size(); j++) {
+            int prod = result[j] * a + carry;
+            result[j] = prod % 10; // Store last digit
+            carry = prod / 10; // Carry forward
+        }
+
+        while (carry) { // Handle remaining carry
+            result.push_back(carry % 10);
+            carry /= 10;
+        }
+    }
+
+    string powerValue;
+    for (int i = result.size() - 1; i >= 0; i--) {
+        powerValue += (char)(result[i] + '0'); // Convert digit to character
+    }
+    
+    return powerValue;
+}
+
+int distinctPowers(int N) {
+    set<string> uniquePowers;
+
+    for (int a = 2; a <= N; a++) {
+        for (int b = 2; b <= N; b++) {
+            uniquePowers.insert(power(a, b)); // Use string representation
+        }
+    }
+
+    return uniquePowers.size();
+}
+
+int main() {
+    int N;
+    cin >> N;
+    cout << distinctPowers(N) << endl;
+    return 0;
+}
